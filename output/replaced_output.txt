@@ -1,0 +1,6 @@
+The quick brown cat jumps over the lazy dog.
+This is a sample text file.
+It contains multiple lines.
+We will use this file to test our file manipulation commands.
+cat appears twice in this file. cat is capitalized here.
+The last line is this one.
