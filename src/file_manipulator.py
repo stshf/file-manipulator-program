@@ -17,25 +17,23 @@ def write_contents(output_path: str, contents: str) -> None:
     except IOError as e:
         print(f"Error writing to file {output_path}: {e}")
 
-def reverse_string(input_path: str, output_path: str) -> None:
+def process_file(input_path:str, output_path: str, operation: callable, *args) -> None:
     contents = read_contents(input_path)
-    reversed_contents = contents[::-1]
-    write_contents(output_path, reversed_contents)
+    proccessed_contents = operation(contents, *args)
+    write_contents(output_path, proccessed_contents)
 
-def copy_file(input_path: str, output_path: str) -> None:
-    contents = read_contents(input_path)
-    write_contents(output_path, contents)
+def reverse_string(contents: str) -> str:
+    return contents[::-1]
 
-def duplicate_contents(input_path: str, output_path: str, times: int) -> None:
-    contents = read_contents(input_path)
-    contents_times = contents * int(times)
-    write_contents(output_path, contents_times)
+def copy_file(contents: str) -> str:
+    return contents
 
-def replace_string(input_path: str, output_path: str, target: str, new_string: str) -> None:
-    contents = read_contents(input_path)
+def duplicate_contents(contents:str, times: int) -> str:
+    return contents * int(times)
+
+def replace_string(contents: str, target: str, new_string: str) -> str:
     # 置換を実行(大文字と小文字を区別しない)
-    replaced_contents = re.sub(target, new_string, contents, flags=re.IGNORECASE)
-    write_contents(output_path, replaced_contents)
+    return re.sub(target, new_string, contents, flags=re.IGNORECASE)
 
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="File content manipulator")
@@ -72,13 +70,13 @@ def main() -> None:
 
     try:
         if args.command == "reverse":
-            reverse_string(args.input, args.output)
+            process_file(args.input, args.output, reverse_string)
         elif args.command == "copy":
-            copy_file(args.input, args.output)
+            process_file(args.input, args.output, copy_file)
         elif args.command == "duplicate-contents":
-            duplicate_contents(args.input, args.output, args.times)
+            process_file(args.input, args.output, duplicate_contents, args.times)
         elif args.command == "replace-string":
-            replace_string(args.input, args.output, args.target, args.new_string)
+            process_file(args.input, args.output, replace_string, args.target, args.new_string)
     except Exception as e:
         print(f"An error occurred: {e}")
         sys.exit(1)
