@@ -27,7 +27,7 @@
    ```
 2. プロジェクトディレクトリに移動します：
    ```
-   cd file-manipulator
+   cd file-manipulator-program
    ```
 
 ## 使用方法
