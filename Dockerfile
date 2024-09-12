@@ -33,4 +33,5 @@ ENV PYTHONUNBUFFERED=1
 RUN chmod +x /app/test/run_tests.sh
 
 # コンテナ起動時にTestシェルスクリプトを実行
+# container上のパスを指定すること
 CMD ["/app/test/run_tests.sh"]
